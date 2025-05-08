@@ -41,7 +41,7 @@ export class BlogPostsResolver {
     return this.blogPostService.update(id, updateBlogPostInput);
   }
 
-  @Mutation(() => BlogPost, { name: 'removeBlogPost' })
+  @Mutation(() => Boolean, { name: 'removeBlogPost' })
   async remove(@Args('id', ParseIntPipe) id: number) {
     return this.blogPostService.softDelete(id);
   }

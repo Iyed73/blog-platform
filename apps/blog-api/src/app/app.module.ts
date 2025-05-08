@@ -32,7 +32,8 @@ import { BlogPostsModule } from '@blog-platform/blog-posts';
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: true
+      autoSchemaFile: true,
+      installSubscriptionHandlers: true,
     }),
     BlogPostsModule
   ],

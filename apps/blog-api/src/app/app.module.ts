@@ -6,9 +6,9 @@ import { validationSchema } from '../assets/validation.schema';
 import appConfig from '../assets/app.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import AppConfig from '../assets/app.config';
-import { join } from 'path';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { BlogPostsModule } from '@blog-platform/blog-posts';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -32,8 +32,9 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-    })
+      autoSchemaFile: true
+    }),
+    BlogPostsModule
   ],
   controllers: [AppController],
   providers: [AppService]

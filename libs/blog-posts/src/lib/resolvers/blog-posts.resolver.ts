@@ -1,15 +1,18 @@
 import { ParseIntPipe } from '@nestjs/common';
-import { Args, ID, Resolver, Query, Mutation } from '@nestjs/graphql';
+import { Args, ID, Resolver, Query, Mutation, Subscription } from '@nestjs/graphql';
 import { BlogPostsService } from '../services/blog-posts.service';
 import { BlogPost } from '../entities/blog-post.entity';
 import { CreateBlogPostInput } from '../dto/create-blog-post.input';
 import { UpdateBlogPostInput } from '../dto/update-blog-post.input';
 import { PaginationQueryDto } from '@blog-platform/common';
+import { PubSub } from 'graphql-subscriptions';
+import { BLOG_POST_ADDED_EVENT } from '../constants';
 
 @Resolver()
 export class BlogPostsResolver {
   constructor(
-    private readonly blogPostService: BlogPostsService
+    private readonly blogPostService: BlogPostsService,
+    private readonly pubSub: PubSub
   ) {
   }
 
@@ -41,5 +44,10 @@ export class BlogPostsResolver {
   @Mutation(() => BlogPost, { name: 'removeBlogPost' })
   async remove(@Args('id', ParseIntPipe) id: number) {
     return this.blogPostService.softDelete(id);
+  }
+
+  @Subscription(() => BlogPost)
+  blogPostAdded() {
+    return this.pubSub.asyncIterableIterator(BLOG_POST_ADDED_EVENT);
   }
 }

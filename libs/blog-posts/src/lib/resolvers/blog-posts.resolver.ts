@@ -4,6 +4,7 @@ import { BlogPostsService } from '../services/blog-posts.service';
 import { BlogPost } from '../entities/blog-post.entity';
 import { CreateBlogPostInput } from '../dto/create-blog-post.input';
 import { UpdateBlogPostInput } from '../dto/update-blog-post.input';
+import { PaginationQueryDto } from '@blog-platform/common';
 
 @Resolver()
 export class BlogPostsResolver {
@@ -13,8 +14,8 @@ export class BlogPostsResolver {
   }
 
   @Query(() => [BlogPost], { name: 'blogPosts' })
-  async findAll() {
-    return this.blogPostService.findAll();
+  async findAll(@Args('paginationQuery', { nullable: true }) paginationQuery: PaginationQueryDto) {
+    return this.blogPostService.findAll(paginationQuery);
   }
 
   @Query(() => BlogPost, { name: 'blogPost' })

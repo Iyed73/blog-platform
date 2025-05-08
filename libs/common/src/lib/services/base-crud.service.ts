@@ -58,11 +58,13 @@ export abstract class BaseCrudService<T extends BaseEntity> {
     return this.repository.remove(entity);
   }
 
-  async softDelete(id: number): Promise<void> {
+  async softDelete(id: number): Promise<boolean> {
     const result = await this.repository.softDelete(id);
 
     if (result.affected === 0) {
       throw new NotFoundException(`${this.entityName} with ID ${id} not found`);
     }
+
+    return true;
   }
 }

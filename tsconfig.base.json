@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@blog-platform/blog-post": ["libs/blog-post/src/index.ts"],
+      "@blog-platform/blog-posts": ["libs/blog-posts/src/index.ts"],
       "@blog-platform/common": ["libs/common/src/index.ts"]
     }
   },

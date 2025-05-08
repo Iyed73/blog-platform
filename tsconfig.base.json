@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@blog-platform/blog-posts": ["libs/blog-posts/src/index.ts"],
-      "@blog-platform/common": ["libs/common/src/index.ts"]
+      "@blog-platform/common": ["libs/common/src/index.ts"],
+      "@blog-platform/core": ["libs/core/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

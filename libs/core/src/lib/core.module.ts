@@ -30,10 +30,25 @@ import { CoreService } from './core.service';
       }),
       inject: [AppConfig.KEY]
     }),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: true,
-      installSubscriptionHandlers: true
+      useFactory: () => ({
+        autoSchemaFile: true,
+        installSubscriptionHandlers: true,
+        formatError: (error) => {
+          const originalError = error.extensions?.['originalError'] as Error;
+          if (!originalError) {
+            return {
+              message: error.message,
+              code: error.extensions?.['code'],
+            };
+          }
+          return {
+            message: originalError.message,
+            code: error.extensions?.['code'],
+          };
+        },
+      }),
     }),
     BlogPostsModule
   ],

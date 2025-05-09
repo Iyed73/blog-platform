@@ -1,14 +1,15 @@
-import { ParseIntPipe } from '@nestjs/common';
+import { ParseIntPipe, UseFilters } from '@nestjs/common';
 import { Args, ID, Resolver, Query, Mutation, Subscription } from '@nestjs/graphql';
 import { BlogPostsService } from '../services/blog-posts.service';
 import { BlogPost } from '../entities/blog-post.entity';
 import { CreateBlogPostInput } from '../dto/create-blog-post.input';
 import { UpdateBlogPostInput } from '../dto/update-blog-post.input';
-import { PaginationQueryDto } from '@blog-platform/common';
+import { GraphqlExceptionsFilter, PaginationQueryDto } from '@blog-platform/common';
 import { PubSub } from 'graphql-subscriptions';
 import { BLOG_POST_ADDED_EVENT } from '../constants';
 
 @Resolver()
+@UseFilters(GraphqlExceptionsFilter)
 export class BlogPostsResolver {
   constructor(
     private readonly blogPostService: BlogPostsService,

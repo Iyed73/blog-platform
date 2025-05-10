@@ -1,8 +1,9 @@
 import {
   Column,
-  Entity,
+  Entity, JoinTable, ManyToMany
 } from 'typeorm';
 import { BaseEntity } from '@blog-platform/common';
+import { Category } from './category.entity';
 
 
 @Entity()
@@ -12,4 +13,8 @@ export class BlogPost extends BaseEntity {
 
   @Column()
   content!: string;
+
+  @JoinTable()
+  @ManyToMany((type) => Category, (category) => category.blogPosts)
+  categories?: Category[];
 }

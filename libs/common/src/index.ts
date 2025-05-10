@@ -3,3 +3,4 @@ export * from './lib/entities/base.entity';
 export * from './lib/services/base-crud.service';
 export * from './lib/dto/pagination-query.dto';
 export * from './lib/filters/graphql-exceptions.filter';
+export * from './lib/logger/custom-logger.service'

@@ -1,12 +1,12 @@
 import { ParseIntPipe, UseFilters } from '@nestjs/common';
 import { Args, ID, Resolver, Query, Mutation, Subscription } from '@nestjs/graphql';
 import { BlogPostsService } from '../services/blog-posts.service';
-import { BlogPost } from '../entities/blog-post.entity';
 import { CreateBlogPostInput } from '../dto/create-blog-post.input';
 import { UpdateBlogPostInput } from '../dto/update-blog-post.input';
-import { GraphqlExceptionsFilter, PaginationQueryDto } from '@blog-platform/common';
+import { GraphqlExceptionsFilter, PaginationQueryInput } from '@blog-platform/common';
 import { PubSub } from 'graphql-subscriptions';
 import { BLOG_POST_ADDED_EVENT } from '../constants';
+import { BlogPostModel } from '../graphql-models/blog-post.model';
 
 @Resolver()
 @UseFilters(GraphqlExceptionsFilter)
@@ -17,37 +17,37 @@ export class BlogPostsResolver {
   ) {
   }
 
-  @Query(() => [BlogPost], { name: 'blogPosts' })
-  async findAll(@Args('paginationQuery', { nullable: true }) paginationQuery: PaginationQueryDto) {
+  @Query(() => [BlogPostModel], { name: 'blogPosts' })
+  async findAll(@Args('paginationQuery', { nullable: true }) paginationQuery: PaginationQueryInput) {
     return this.blogPostService.findAll(paginationQuery);
   }
 
-  @Query(() => BlogPost, { name: 'blogPost' })
+  @Query(() => BlogPostModel, { name: 'blogPost' })
   async findOne(@Args('id', { type: () => ID }, ParseIntPipe) id: number) {
     return this.blogPostService.findOne(id);
   }
 
-  @Mutation(() => BlogPost, { name: 'createBlogPost' })
+  @Mutation(() => BlogPostModel, { name: 'createBlogPost' })
   async create(
     @Args('createBlogPostInput') createBlogPostInput: CreateBlogPostInput
   ) {
     return this.blogPostService.create(createBlogPostInput);
   }
 
-  @Mutation(() => BlogPost, { name: 'updateBlogPost' })
+  @Mutation(() => BlogPostModel, { name: 'updateBlogPost' })
   async update(
-    @Args('id', ParseIntPipe) id: number,
+    @Args('id', { type: () => ID }, ParseIntPipe) id: number,
     @Args('updateBlogPostInput') updateBlogPostInput: UpdateBlogPostInput
   ) {
     return this.blogPostService.update(id, updateBlogPostInput);
   }
 
   @Mutation(() => Boolean, { name: 'removeBlogPost' })
-  async remove(@Args('id', ParseIntPipe) id: number) {
+  async remove(@Args('id', { type: () => ID }, ParseIntPipe) id: number) {
     return this.blogPostService.softDelete(id);
   }
 
-  @Subscription(() => BlogPost)
+  @Subscription(() => BlogPostModel)
   blogPostAdded() {
     return this.pubSub.asyncIterableIterator(BLOG_POST_ADDED_EVENT);
   }

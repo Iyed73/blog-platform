@@ -2,7 +2,7 @@ import { DeepPartial, FindOptionsOrder, FindOptionsWhere, Repository } from 'typ
 import { BaseEntity } from '../entities/base.entity';
 import { Injectable } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common';
-import { PaginationQueryDto } from '../dto/pagination-query.dto';
+import { PaginationQueryInput } from '../dto/pagination-query.dto';
 import { CustomLogger } from '../logger/custom-logger.service';
 
 @Injectable()
@@ -15,7 +15,7 @@ export abstract class BaseCrudService<T extends BaseEntity> {
     return this.repository.metadata.targetName;
   }
 
-  async findAll(paginationQuery: PaginationQueryDto): Promise<T[]> {
+  async findAll(paginationQuery: PaginationQueryInput): Promise<T[]> {
     const { limit, offset } = paginationQuery || {};
     this.logger.log(`Finding all ${this.entityName}s with pagination: ${JSON.stringify(paginationQuery)}`);
     const order: FindOptionsOrder<T> = { createdAt: 'DESC' } as FindOptionsOrder<T>;

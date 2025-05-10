@@ -98,8 +98,8 @@ export class BlogPostsService {
     });
     if (!existingCategory) {
       this.logger.log(`Creating new category ${name}`);
-      const result = await this.categoryRepository.create({ name });
-      this.categoryRepository.save(result);
+      const newCategory = await this.categoryRepository.create({ name });
+      const result = this.categoryRepository.save(newCategory);
       this.logger.log(`Category ${name} created successfully`);
       return result;
     }

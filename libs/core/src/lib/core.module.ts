@@ -26,7 +26,8 @@ import { CoreService } from './core.service';
         password: config.database.password,
         database: config.database.name,
         autoLoadEntities: true,
-        synchronize: config.database.synchronize
+        synchronize: config.database.synchronize,
+        logging: ['query'],
       }),
       inject: [AppConfig.KEY]
     }),

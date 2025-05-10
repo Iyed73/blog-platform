@@ -6,6 +6,6 @@ import { LoggerModule } from './logger/logger.module';
   imports: [PubSubModule, LoggerModule],
   controllers: [],
   providers: [],
-  exports: [PubSubModule],
+  exports: [PubSubModule, LoggerModule],
 })
 export class CommonModule {}

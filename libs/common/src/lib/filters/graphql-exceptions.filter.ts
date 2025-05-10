@@ -1,22 +1,36 @@
-import { ArgumentsHost, BadRequestException, Catch, ExceptionFilter, NotFoundException } from '@nestjs/common';
+import { ArgumentsHost, BadRequestException, Catch, ExceptionFilter } from '@nestjs/common';
 import { NotFoundGraphQLError, ValidationGraphQLError } from '../errors/graphql-errors';
 import { ApolloError } from 'apollo-server-express';
 import { ERROR_CODES } from '../errors/error-cdes';
+import { EntityNotFoundException } from '../exceptions/not-found.exception';
+
+interface BadRequestResponse {
+  message?: string | string[];
+  error?: string;
+}
 
 @Catch()
 export class GraphqlExceptionsFilter<T> implements ExceptionFilter {
   catch(exception: T, host: ArgumentsHost) {
-    if (exception instanceof NotFoundException) {
-      const { message } = exception;
-      const [entity, , , idStr] = message.split(' ');
-      const id = parseInt(idStr, 10);
-      return new NotFoundGraphQLError(entity, id);
+    if (exception instanceof EntityNotFoundException) {
+      const { entityName, entityId } = exception.metadata;
+      return new NotFoundGraphQLError(entityName, Number(entityId));
     }
 
     if (exception instanceof BadRequestException) {
-      const response = exception.getResponse();
-      const message = typeof response === 'string' ? response : (response as any).message;
-      return new ValidationGraphQLError(Array.isArray(message) ? message.join(', ') : message);
+      const response = exception.getResponse() as BadRequestResponse;
+      const raw = response.message;
+      let messageText: string;
+
+      if (Array.isArray(raw)) {
+        messageText = raw.join(' | ');
+      } else if (typeof raw === 'string') {
+        messageText = raw;
+      } else {
+        messageText = response.error ?? 'Bad Request';
+      }
+
+      return new ValidationGraphQLError(messageText);
     }
 
     if (exception instanceof ApolloError) {

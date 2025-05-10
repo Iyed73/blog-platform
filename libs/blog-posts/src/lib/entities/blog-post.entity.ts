@@ -15,6 +15,6 @@ export class BlogPost extends BaseEntity {
   content!: string;
 
   @JoinTable()
-  @ManyToMany((type) => Category, (category) => category.blogPosts)
+  @ManyToMany(() => Category, (category) => category.blogPosts)
   categories?: Category[];
 }

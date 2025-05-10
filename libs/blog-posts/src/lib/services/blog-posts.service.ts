@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BlogPost } from '../entities/blog-post.entity';
 import { FindOptionsOrder, FindOptionsWhere, Repository } from 'typeorm';
@@ -8,6 +8,7 @@ import { CreateBlogPostInput } from '../dto/create-blog-post.input';
 import { BLOG_POST_ADDED_EVENT } from '../constants';
 import { UpdateBlogPostInput } from '../dto/update-blog-post.input';
 import { Category } from '../entities/category.entity';
+import { EntityNotFoundException } from '@blog-platform/common';
 
 
 @Injectable()
@@ -44,7 +45,7 @@ export class BlogPostsService {
 
     if (!blogPost) {
       this.logger.warn(`Blog post not found`);
-      throw new NotFoundException(`Blog post with ID ${id} not found`);
+      throw new EntityNotFoundException('Blog post', id);
     }
     this.logger.log(`Blog post with ID ${id} found`);
 
@@ -84,7 +85,7 @@ export class BlogPostsService {
     });
     if (!blogPost) {
       this.logger.warn(`Blog post update failed: blog post with ID ${id} not found`);
-      throw new NotFoundException(`Blog post with ID ${id} not found`);
+      throw new EntityNotFoundException('Blog post', id);
     }
     const result = await this.blogPostRepository.save(blogPost);
     this.logger.log(`Blog post updated successfully: ID=${result}`);
@@ -113,7 +114,7 @@ export class BlogPostsService {
 
     if (result.affected === 0) {
       this.logger.warn(`blog post with ID ${id} not found`);
-      throw new NotFoundException(`Blog post with ID ${id} not found`);
+      throw new EntityNotFoundException('Blog post', id);
     }
     this.logger.log(`Blog post with ID ${id} soft deleted successfully. `);
 

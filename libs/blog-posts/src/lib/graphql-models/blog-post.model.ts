@@ -5,8 +5,8 @@ import { BaseModel } from '@blog-platform/common';
 @ObjectType()
 export class BlogPostModel extends BaseModel {
   @Field()
-  title: string;
+  title!: string;
 
   @Field()
-  content: string;
+  content!: string;
 }

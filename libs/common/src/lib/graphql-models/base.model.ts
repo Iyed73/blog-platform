@@ -5,13 +5,13 @@ export abstract class BaseModel {
   @Field(() => ID, {
     nullable: false,
   })
-  id: number;
+  id!: number;
 
   @Field()
-  createdAt: Date;
+  createdAt!: Date;
 
   @Field()
-  updatedAt: Date;
+  updatedAt!: Date;
 
   @Field({
     nullable: true,

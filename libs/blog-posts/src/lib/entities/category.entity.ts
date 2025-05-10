@@ -7,6 +7,6 @@ export class Category extends BaseEntity {
   @Column()
   name!: string;
 
-  @ManyToMany((type) => BlogPost, (blogPost) => blogPost.categories)
+  @ManyToMany(() => BlogPost, (blogPost) => blogPost.categories)
   blogPosts!: BlogPost[];
 }

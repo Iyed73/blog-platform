@@ -35,7 +35,10 @@ import { CoreService } from './core.service';
       driver: ApolloDriver,
       useFactory: () => ({
         autoSchemaFile: true,
-        installSubscriptionHandlers: true,
+        subscriptions: {
+          'subscriptions-transport-ws': true,
+          'graphql-ws': true
+        },
         formatError: (error) => {
           const originalError = error.extensions?.['originalError'] as Error;
           if (!originalError) {

@@ -2,17 +2,17 @@
 
 ## Description
 
-This is a simple backend for a blog platform built with **Nx**, **NestJS**, **TypeORM**, **PostgreSQL**, and **GraphQL**. It supports full **CRUD** operations on blog posts, with **real-time updates** via GraphQL subscriptions for newly created blog posts. The project follows a modular architecture using Nx-recommended structure and includes proper error handling, logging, and efficient data fetching.
+This is a simple backend for a blog platform built with **Nx**, **NestJS**, **TypeORM**, **PostgreSQL**, and **GraphQL**. It supports full **CRUD** operations on blog posts, with **real-time updates** via GraphQL subscriptions for newly created blog posts. The project follows a modular architecture and includes proper error handling, logging, and efficient data fetching.
 
 ## Key Dependencies
-* `@nestjs/graphql` — Integrates GraphQL into the NestJS application.
-* `@nestjs/typeorm` — TypeORM integration for working with PostgreSQL.
-* `pg` — PostgreSQL driver for Node.js.
-* `apollo-server-express` — Apollo server middleware for GraphQL.
-* `graphql-subscriptions` and `subscriptions-transport-ws` — Real-time functionality using WebSocket-based GraphQL subscriptions.
-* `dataloader` — Efficient batching and caching of GraphQL resolvers to eliminate the N+1 query problem.
-* `class-validator`, `class-transformer` — Used for input validation and transformation.
-* `joi` — Schema-based environment variable validation.
+* `@apollo/server` & `@nestjs/apollo`: Apollo Server integration with NestJS for GraphQL.
+* `@nestjs/graphql`: GraphQL support in NestJS, including schema generation and decorators.
+* `@nestjs/typeorm` & `typeorm`: ORM integration for PostgreSQL.
+* `pg`: PostgreSQL driver.
+* `graphql` & `graphql-subscriptions` & `subscriptions-transport-ws`: Core GraphQL and real-time subscription support.
+* `dataloader`: Batch and cache GraphQL resolver queries to avoid N+1 problems.
+* `class-validator` & `class-transformer`: Input validation and transformation for DTOs.
+* `joi`: Schema-based environment variable validation.
 * `@nx/*` — Nx workspace libraries for tooling and development experience.
 
 ## How to Run the Project
@@ -74,7 +74,7 @@ libs/
   
   3. [**BlogPostsRelationsResolver**](libs/blog-posts/src/lib/resolvers/blog-posts-relations.resolver.ts)
 
-    * Defines `@ResolveField('categories')` to fetch associated categories per blog post.
+    * Defines a method to fetch associated categories per blog post.
     * Delegates to a DataLoader to batch and cache relational loads.
   
   4. [**CategoriesByBlogPostLoader**](libs/blog-posts/src/lib/data-loader/categories-by-blog-post.loader.ts)

@@ -9,5 +9,8 @@ export default registerAs('app', () => ({
     password: process.env['DATABASE_PASSWORD'] || 'postgres',
     name: process.env['DATABASE_NAME'] || 'blog',
     synchronize: process.env['DATABASE_SYNCHRONIZATION'] === 'true'
-  }
+  },
+  graphql: {
+    playground: process.env['GRAPHQL_PLAYGROUND'] === 'true',
+  },
 }));

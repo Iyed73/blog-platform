@@ -32,12 +32,13 @@ import { CoreService } from './core.service';
     }),
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
-      useFactory: () => ({
+      useFactory: (config: ConfigType<typeof AppConfig>) => ({
         autoSchemaFile: true,
         subscriptions: {
           'subscriptions-transport-ws': true,
           'graphql-ws': true
         },
+        playground: config.graphql.playground,
         formatError: (error) => {
           const originalError = error.extensions?.['originalError'] as Error;
           if (!originalError) {
@@ -52,6 +53,7 @@ import { CoreService } from './core.service';
           };
         },
       }),
+      inject: [AppConfig.KEY]
     }),
   ],
   controllers: [CoreController],

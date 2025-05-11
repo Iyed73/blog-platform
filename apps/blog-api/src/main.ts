@@ -15,6 +15,7 @@ async function bootstrap() {
   app.useLogger(new CustomLogger());
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
+  app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
   const port = process.env.PORT || 3000;
   await app.listen(port);

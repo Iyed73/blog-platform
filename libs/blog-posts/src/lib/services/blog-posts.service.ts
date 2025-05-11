@@ -110,12 +110,15 @@ export class BlogPostsService {
 
   async softDelete(id: number): Promise<boolean> {
     this.logger.log(`Soft deleting blog post with ID ${id}`);
-    const result = await this.blogPostRepository.softDelete(id);
 
-    if (result.affected === 0) {
-      this.logger.warn(`blog post with ID ${id} not found`);
+    const existing = await this.blogPostRepository.findOne({ where: { id } });
+    if (!existing) {
+      this.logger.warn(`Cannot delete blog post: no post found with ID ${id}`);
       throw new EntityNotFoundException('Blog post', id);
     }
+
+    await this.blogPostRepository.softDelete(id);
+
     this.logger.log(`Blog post with ID ${id} soft deleted successfully. `);
 
     return true;

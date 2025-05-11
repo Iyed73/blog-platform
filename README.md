@@ -51,15 +51,44 @@ libs/
   common/
   core/
 ```
-##### Library Breakdown:
-* **core**:  configures essential services including environment settings, database connections, and GraphQL setup.
-* **blog-posts**: Implements the complete domain functionality for blog posts.
-* **common**: Provides reusable components like base entities, exception filters, logging utilities...
+#### Library Breakdown:
+##### 1. Core Library
+* **Purpose**: Bootstraps global configuration, database connection, and GraphQL setup.
 
-##### NX Dependencies Graph:
+  Loads and validates environment variables via Joi, exposing them app‑wide.
+
+##### 2. Blog Posts Library
+* **Purpose**: Implements the complete domain functionality for blog posts.
+* **Providers**:
+
+  1. [**BlogPostsService**](libs/blog-posts/src/lib/services/blog-posts.service.ts)
+
+    * Handles database operations (`findAll`, `findOne`, `create`, `update`, `softDelete`) for blog posts.
+    * Preloads categories or creates them if missing.
+    * Publishes `BLOG_POST_ADDED_EVENT` after blog post creation (subscription).
+  
+  2. [**BlogPostsResolver**](libs/blog-posts/src/lib/resolvers/blog-posts.resolver.ts)
+
+    * Exposes GraphQL `@Query`, `@Mutation`, and `@Subscription` endpoints for blog posts.
+    * Applies `GraphqlExceptionsFilter`.
+  
+  3. [**BlogPostsRelationsResolver**](libs/blog-posts/src/lib/resolvers/blog-posts-relations.resolver.ts)
+
+    * Defines `@ResolveField('categories')` to fetch associated categories per blog post.
+    * Delegates to a DataLoader to batch and cache relational loads.
+  
+  4. [**CategoriesByBlogPostLoader**](libs/blog-posts/src/lib/data-loader/categories-by-blog-post.loader.ts)
+
+    * A request‑scoped DataLoader that batches `Category[]` loads for multiple blog post IDs.
+    * Avoids the $N+1$ problem by issuing a single DB query per batch.
+
+##### 3. Common Library
+* **Purpose**: Shared utilities and providers used across feature modules.
+* **Sub‑modules**:
+
+  * [**PubSubModule**](libs/common/src/lib/pub-sub/pub-sub.module.ts): Exports a `PubSub` instance (scoped application‑wide) for event publishing/subscribing.
+  * [**LoggerModule**](libs/common/src/lib/logger/logger.module.ts): Exports `CustomLogger` (transient scoped console logger)
+
+#### NX Dependencies Graph:
 
 <img src="docs/dependencies-graph.png" height="300px">
-
-### Other Technical Details
-
-* **DataLoader**: Used to efficiently resolve `Category` relationships in posts and avoid $N+1$ problems.

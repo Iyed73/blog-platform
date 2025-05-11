@@ -3,7 +3,6 @@ import { ConfigModule, ConfigType } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { BlogPostsModule } from '@blog-platform/blog-posts';
 import appConfig from './config/app.config';
 import { validationSchema } from './config/validation.schema';
 import AppConfig from './config/app.config';
@@ -54,7 +53,6 @@ import { CoreService } from './core.service';
         },
       }),
     }),
-    BlogPostsModule
   ],
   controllers: [CoreController],
   providers: [CoreService],

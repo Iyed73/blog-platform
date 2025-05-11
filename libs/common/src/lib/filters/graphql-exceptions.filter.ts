@@ -1,7 +1,7 @@
 import { ArgumentsHost, BadRequestException, Catch, ExceptionFilter } from '@nestjs/common';
 import { NotFoundGraphQLError, ValidationGraphQLError } from '../errors/graphql-errors';
-import { ApolloError } from 'apollo-server-express';
-import { ERROR_CODES } from '../errors/error-cdes';
+import { GraphQLError } from 'graphql';
+import { ERROR_CODES } from '../errors/error-codes';
 import { EntityNotFoundException } from '../exceptions/not-found.exception';
 
 interface BadRequestResponse {
@@ -33,9 +33,13 @@ export class GraphqlExceptionsFilter<T> implements ExceptionFilter {
       return new ValidationGraphQLError(messageText);
     }
 
-    if (exception instanceof ApolloError) {
+    if (exception instanceof GraphQLError) {
       return exception;
     }
-    return new ApolloError('Internal server error', ERROR_CODES.INTERNAL_SERVER_ERROR);
+    return new GraphQLError('Internal server error', {
+      extensions: {
+        code: ERROR_CODES.INTERNAL_SERVER_ERROR
+      }
+    });
   }
 }

@@ -1,7 +1,7 @@
 import { ArgumentsHost, BadRequestException, Catch, ExceptionFilter } from '@nestjs/common';
 import { NotFoundGraphQLError, ValidationGraphQLError } from '../errors/graphql-errors';
 import { GraphQLError } from 'graphql';
-import { ERROR_CODES } from '../errors/error-cdes';
+import { ERROR_CODES } from '../errors/error-codes';
 import { EntityNotFoundException } from '../exceptions/not-found.exception';
 
 interface BadRequestResponse {

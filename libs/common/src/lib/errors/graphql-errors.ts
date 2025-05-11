@@ -1,5 +1,5 @@
 import { GraphQLError } from 'graphql';
-import { ERROR_CODES } from './error-cdes';
+import { ERROR_CODES } from './error-codes';
 
 export class NotFoundGraphQLError extends GraphQLError {
   constructor(entity: string, id: number) {

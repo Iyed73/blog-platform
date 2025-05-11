@@ -31,6 +31,8 @@ The core entity is `BlogPost`, which has a many-to-many relationship with `Categ
 
 GraphQL Playground provides an **interactive, auto‑generated API reference and schema documentation** that’s always kept in sync with the code. You can explore and try out queries, mutations, and subscriptions in the Playground UI:
 > http://localhost:3000/graphql
+> 
+(Make sure the `GRAPHQL_PLAYGROUND` env variable is set to true)
 
 For a **static overview**, see [API Reference](docs/API_REFERENCE.md).
 

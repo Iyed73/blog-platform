@@ -17,6 +17,7 @@ services:
       - DATABASE_HOST=${DATABASE_HOST}
       - DATABASE_SYNCHRONIZATION=${DATABASE_SYNCHRONIZATION}
       - GRAPHQL_PLAYGROUND=${GRAPHQL_PLAYGROUND}
+      - NODE_ENV=${NODE_ENV}
     networks:
       - blog-network
 

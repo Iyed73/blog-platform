@@ -7,7 +7,7 @@
 
 ### Schema Generation
 
-The GraphQL schema is auto-generated (`autoSchemaFile: true`), a file for the schema can be found in `libs/core/src/lib/graphql-schema/schema.gql`
+The GraphQL schema is auto-generated, you can check it [here](../libs/core/src/lib/graphql-schema/schema.gql).
 
 ### Queries
 

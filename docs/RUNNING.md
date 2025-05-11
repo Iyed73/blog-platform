@@ -16,7 +16,7 @@ cp .env-example .env
 ```
 2. Configure the env variables according to your environment.
 
-  **Note**: When using Docker, the `DATABASE_HOST` should be set to `postgres` service name in docker-compose: `postgres`
+  **Note**: When using Docker, the `DATABASE_HOST` should be set to postgres service name in docker-compose: `postgres`
 
 ### Running without Docker
 1. Install dependencies
@@ -36,7 +36,7 @@ Docker setup makes it easy to run both the application and the database in isola
 ```bash
 docker compose build
 ```
-2.Start the containers
+2. Start the containers
 ```bash
 docker compose up -d
 ```
